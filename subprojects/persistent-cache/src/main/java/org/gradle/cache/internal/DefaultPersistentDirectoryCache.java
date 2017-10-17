@@ -83,6 +83,10 @@ public class DefaultPersistentDirectoryCache extends DefaultPersistentDirectoryS
                 return true;
             }
 
+            if (!propertiesFile.exists()) {
+                return true;
+            }
+
             Properties cachedProperties = GUtil.loadProperties(propertiesFile);
             for (Map.Entry<?, ?> entry : properties.entrySet()) {
                 String previousValue = cachedProperties.getProperty(entry.getKey().toString());
