@@ -1,0 +1,3 @@
+language: java
+os: osx
+script: ./gradlew langNat:check --continue --no-daemon
