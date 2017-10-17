@@ -36,6 +36,10 @@ As of Gradle 4.4, optional dependencies will participate in dependency resolutio
 For example, if a transitive dependency on `foo:bar:1.1` is optional, but another path in the dependency graph brings `foo:bar:1.0` (not optional), then Gradle will resolve to `foo:bar:1.1`.
 Previous releases would resolve to `foo:bar:1.0`. However, if no "hard" dependency is found on the optional module, then it will **not** be included, as previous Gradle versions did.
 
+### Dependencies of published components can be adjusted
+
+[Component metadata rules](userguide/component_metadata_rules.html) now supports adding and removing dependencies in case the published metadata is flawed or too strict. This can be used for example to adjust version ranges of dependencies.
+TODO extend this section when further features (e.g. updating an existing dependency) are added.
 
 ### Parametrized tooling model builders.
 

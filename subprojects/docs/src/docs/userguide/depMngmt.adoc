@@ -1186,6 +1186,13 @@ The next example demonstrates `latest` selectors based on a custom status scheme
             </sample>
 ++++
 
+Another aspect of metadata that can be understood and adjusted are the dependencies declared in the metadata. If these are flawed or too strict, a rule can be used to adjust them. For example:
+++++
+<sample id="adjustPublishedDependencies" dir="componentMetadataRules" title="Adjust published dependencies">
+                <sourcefile file="build.gradle" snippet="adjust-published-dependencies"/>
+            </sample>
+++++
+
 Component metadata rules can be applied to a specified module. Modules must be specified in the form of "group:module".
 
 ++++

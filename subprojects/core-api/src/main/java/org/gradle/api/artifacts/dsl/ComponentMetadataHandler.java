@@ -27,6 +27,7 @@ import org.gradle.api.artifacts.ComponentMetadataDetails;
  * <ul>
  *     <li>Setting the status and status scheme of a component, overriding the value specified in the component descriptor.</li>
  *     <li>Declaring whether or not a component is 'changing', thus impacting the cache behaviour of the component.</li>
+ *     <li>Changing the dependencies of a component, adjusting the dependencies declared in the component's metadata.</li>
  * </ul>
  *
  * <p> Example:

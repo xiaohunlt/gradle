@@ -49,6 +49,19 @@ task listApi {
     }
 }
 
+// START SNIPPET adjust-published-dependencies
+dependencies {
+    components {
+        all {
+            if (dependencies.any { it.group == 'org.slf4j' }) {
+                dependencies.add('org.slf4j:slf4j-api:latest.release')
+            }
+            dependencies.removeAll { it.group == 'org.slf4j' && it.name != 'slf4j-api' }
+        }
+    }
+}
+// END SNIPPET adjust-published-dependencies
+
 // START SNIPPET custom-status-scheme-module
 dependencies {
     config4 "org.sample:lib:latest.prod"
