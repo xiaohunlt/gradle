@@ -17,6 +17,7 @@
 package org.gradle.nativeplatform.fixtures;
 
 import org.gradle.integtests.fixtures.AbstractMultiTestRunner;
+import org.gradle.internal.os.OperatingSystem;
 import org.gradle.util.Requires;
 import org.gradle.util.TestPrecondition;
 
@@ -37,7 +38,8 @@ public class SingleToolChainTestRunner extends AbstractMultiTestRunner {
         List<AvailableToolChains.ToolChainCandidate> toolChains = AvailableToolChains.getToolChains();
         if (enableAllToolChains) {
             for (AvailableToolChains.ToolChainCandidate toolChain : toolChains) {
-                if (!toolChain.isAvailable()) {
+                if (!toolChain.isAvailable()
+                    && isRespectingObjCConstraint(toolChain)) {
                     throw new RuntimeException(String.format("Tool chain %s is not available.", toolChain.getDisplayName()));
                 }
                 add(new ToolChainExecution(toolChain, isRespectingSwiftConstraint(toolChain)));
@@ -45,7 +47,9 @@ public class SingleToolChainTestRunner extends AbstractMultiTestRunner {
         } else {
             boolean hasEnabled = false;
             for (AvailableToolChains.ToolChainCandidate toolChain : toolChains) {
-                if (!hasEnabled && toolChain.isAvailable() && isRespectingSwiftConstraint(toolChain)) {
+                if (!hasEnabled && toolChain.isAvailable()
+                    && isRespectingObjCConstraint(toolChain)
+                    && isRespectingSwiftConstraint(toolChain)) {
                     add(new ToolChainExecution(toolChain, true));
                     hasEnabled = true;
                 } else {
@@ -57,6 +61,15 @@ public class SingleToolChainTestRunner extends AbstractMultiTestRunner {
 
     private boolean isRespectingSwiftConstraint(AvailableToolChains.ToolChainCandidate toolChain) {
         return !(getRequirements(target).contains(TestPrecondition.SWIFT_SUPPORT) ^ toolChain instanceof AvailableToolChains.InstalledSwiftc);
+    }
+
+    private boolean isRespectingObjCConstraint(AvailableToolChains.ToolChainCandidate toolChain) {
+        // GCC does not support building objective C on macOS:
+        // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=63651
+        if (OperatingSystem.current().isMacOsX()) {
+            return !(getRequirements(target).contains(TestPrecondition.OBJECTIVE_C_SUPPORT) ^ toolChain instanceof AvailableToolChains.InstalledClang);
+        }
+        return true;
     }
 
     private static EnumSet<TestPrecondition> getRequirements(Class<?> target) {
