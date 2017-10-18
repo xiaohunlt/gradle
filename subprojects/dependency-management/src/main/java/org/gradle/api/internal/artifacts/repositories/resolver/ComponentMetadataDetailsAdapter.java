@@ -75,7 +75,7 @@ public class ComponentMetadataDetailsAdapter implements ComponentMetadataDetails
     public ComponentDependenciesMetadataDetails getDependencies() {
         if (componentDependenciesMetadataDetails == null) {
             componentDependenciesMetadataDetails = instantiator.newInstance(ComponentDependenciesMetadataDetailsAdapter.class,
-                metadata.getMutableDependencies(), dependencyMetadataNotationParser);
+                metadata.getDependencies(), dependencyMetadataNotationParser);
         }
         return componentDependenciesMetadataDetails;
     }

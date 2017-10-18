@@ -30,7 +30,7 @@ public class DefaultIvyModuleResolveMetadata extends AbstractModuleComponentReso
     private final ImmutableMap<NamespaceId, String> extraAttributes;
     private final String branch;
 
-    DefaultIvyModuleResolveMetadata(MutableIvyModuleResolveMetadata metadata) {
+    DefaultIvyModuleResolveMetadata(DefaultMutableIvyModuleResolveMetadata metadata) {
         super(metadata);
         this.configurationDefinitions = metadata.getConfigurationDefinitions();
         this.branch = metadata.getBranch();

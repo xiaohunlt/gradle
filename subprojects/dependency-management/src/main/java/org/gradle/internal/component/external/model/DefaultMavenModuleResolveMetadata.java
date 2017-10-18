@@ -44,7 +44,7 @@ public class DefaultMavenModuleResolveMetadata extends AbstractModuleComponentRe
     private final String snapshotTimestamp;
     private final ImmutableList<? extends ComponentVariant> variants;
 
-    DefaultMavenModuleResolveMetadata(MutableMavenModuleResolveMetadata metadata) {
+    DefaultMavenModuleResolveMetadata(DefaultMutableMavenModuleResolveMetadata metadata) {
         super(metadata);
         packaging = metadata.getPackaging();
         relocated = metadata.isRelocated();

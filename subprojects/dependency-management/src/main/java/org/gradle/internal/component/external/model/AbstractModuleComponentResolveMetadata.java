@@ -49,7 +49,7 @@ abstract class AbstractModuleComponentResolveMetadata implements ModuleComponent
     private final List<? extends DependencyMetadata> dependencies;
     private final HashValue contentHash;
 
-    protected AbstractModuleComponentResolveMetadata(MutableModuleComponentResolveMetadata metadata) {
+    protected AbstractModuleComponentResolveMetadata(AbstractMutableModuleComponentResolveMetadata metadata) {
         this.componentIdentifier = metadata.getComponentId();
         this.moduleVersionIdentifier = metadata.getId();
         changing = metadata.isChanging();
@@ -57,7 +57,7 @@ abstract class AbstractModuleComponentResolveMetadata implements ModuleComponent
         status = metadata.getStatus();
         statusScheme = metadata.getStatusScheme();
         moduleSource = metadata.getSource();
-        dependencies = metadata.getDependencies();
+        dependencies = metadata.getImmutableDependencies();
         artifactOverrides = metadata.getArtifactOverrides();
         configurations = metadata.getConfigurations();
         contentHash = metadata.getContentHash();

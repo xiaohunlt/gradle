@@ -76,13 +76,7 @@ public interface MutableModuleComponentResolveMetadata {
     /**
      * Returns a mutable copy of the dependency declarations of this component.
      */
-    List<DependencyMetadata> getMutableDependencies();
-
-    /**
-     * Returns the dependency declarations of this component. If a mutable copy was requested via
-     * {@link #getMutableDependencies()}, a new immutable list is created based on the changes.
-     */
-    List<? extends DependencyMetadata> getDependencies();
+    List<DependencyMetadata> getDependencies();
 
     /**
      * Returns the artifacts to apply to all configurations. Is null when there are no such artifacts.

@@ -54,7 +54,7 @@ abstract class AbstractMutableModuleComponentResolveMetadata implements MutableM
     private String status = "integration";
     private List<String> statusScheme = DEFAULT_STATUS_SCHEME;
     private ModuleSource moduleSource;
-    private List<DependencyMetadata> mutableDependencies;
+    private List<DependencyMetadata> dependencies;
     private HashValue contentHash = EMPTY_CONTENT;
     @Nullable
     private List<? extends ModuleComponentArtifactMetadata> artifactOverrides;
@@ -108,7 +108,7 @@ abstract class AbstractMutableModuleComponentResolveMetadata implements MutableM
 
     @Override
     public ImmutableMap<String, ? extends ConfigurationMetadata> getConfigurations() {
-        if (configurations == null || mutableDependencies != null) {
+        if (configurations == null || dependencies != null) {
             configurations = populateConfigurationsFromDescriptor(getConfigurationDefinitions(), getExcludes());
             if (artifactOverrides != null) {
                 populateArtifactsFromOverrides(artifactOverrides);
@@ -149,10 +149,10 @@ abstract class AbstractMutableModuleComponentResolveMetadata implements MutableM
         Set<String> configurationsNames = configurationDefinitions.keySet();
         Map<String, DefaultConfigurationMetadata> configurations = new HashMap<String, DefaultConfigurationMetadata>(configurationsNames.size());
         List<? extends DependencyMetadata> dependencies;
-        if (this.mutableDependencies == null) {
+        if (this.dependencies == null) {
             dependencies = this.immutableDependencies;
         } else {
-            dependencies = this.mutableDependencies;
+            dependencies = this.dependencies;
         }
         for (String configName : configurationsNames) {
             DefaultConfigurationMetadata configuration = populateConfigurationFromDescriptor(configName, configurationDefinitions, configurations, excludes);
@@ -278,19 +278,18 @@ abstract class AbstractMutableModuleComponentResolveMetadata implements MutableM
         resetConfigurations();
     }
 
-    @Override
-    public List<? extends DependencyMetadata> getDependencies() {
-        if (mutableDependencies == null) {
+    protected List<? extends DependencyMetadata> getImmutableDependencies() {
+        if (dependencies == null) {
             return immutableDependencies;
         }
-        return ImmutableList.copyOf(mutableDependencies);
+        return ImmutableList.copyOf(dependencies);
     }
 
     @Override
-    public List<DependencyMetadata> getMutableDependencies() {
-        if (mutableDependencies == null) {
-            mutableDependencies = Lists.newArrayList(immutableDependencies);
+    public List<DependencyMetadata> getDependencies() {
+        if (dependencies == null) {
+            dependencies = Lists.newArrayList(immutableDependencies);
         }
-        return mutableDependencies;
+        return dependencies;
     }
 }

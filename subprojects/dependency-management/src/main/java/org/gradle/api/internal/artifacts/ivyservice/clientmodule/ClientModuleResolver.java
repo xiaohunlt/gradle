@@ -63,7 +63,7 @@ public class ClientModuleResolver implements ComponentMetaDataResolver {
     }
 
     private void addClientModuleDependencies(ClientModule clientModule, MutableModuleComponentResolveMetadata clientModuleMetaData) {
-        List<DependencyMetadata> mutableDependencies = clientModuleMetaData.getMutableDependencies();
+        List<DependencyMetadata> mutableDependencies = clientModuleMetaData.getDependencies();
         for (ModuleDependency moduleDependency : clientModule.getDependencies()) {
             DependencyMetadata dependencyMetadata = dependencyDescriptorFactory.createDependencyDescriptor(moduleDependency.getTargetConfiguration(), null, moduleDependency);
             mutableDependencies.add(dependencyMetadata);
