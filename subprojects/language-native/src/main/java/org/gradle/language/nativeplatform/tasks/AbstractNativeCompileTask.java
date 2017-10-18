@@ -144,6 +144,7 @@ public abstract class AbstractNativeCompileTask extends DefaultTask {
         configureSpec(spec);
 
         PlatformToolProvider platformToolProvider = toolChain.select(targetPlatform);
+        spec.include(platformToolProvider.getSystemIncludes());
         setDidWork(doCompile(spec, platformToolProvider).getDidWork());
     }
 
@@ -264,9 +265,13 @@ public abstract class AbstractNativeCompileTask extends DefaultTask {
             return null; // => Include paths are handled by a different task
         }
         if (includePaths == null) {
-            Set<File> roots = includes.getFiles();
             ImmutableList.Builder<String> builder = ImmutableList.builder();
+            Set<File> roots = includes.getFiles();
             for (File root : roots) {
+                builder.add(root.getAbsolutePath());
+            }
+            PlatformToolProvider platformToolProvider = toolChain.select(targetPlatform);
+            for (File root : platformToolProvider.getSystemIncludes()) {
                 builder.add(root.getAbsolutePath());
             }
             includePaths = builder.build();
