@@ -85,7 +85,7 @@ class VisualCppPlatformToolProvider extends AbstractPlatformToolProvider {
         CommandLineToolInvocationWorker commandLineTool = tool("C++ compiler", visualCpp.getCompiler(targetPlatform));
         CppCompiler cppCompiler = new CppCompiler(buildOperationExecutor, compilerOutputFileNamingSchemeFactory, commandLineTool, context(commandLineToolConfigurations.get(ToolType.CPP_COMPILER)), addDefinitions(CppCompileSpec.class), getObjectFileExtension(), true, workerLeaseService);
         OutputCleaningCompiler<CppCompileSpec> outputCleaningCompiler = new OutputCleaningCompiler<CppCompileSpec>(cppCompiler, compilerOutputFileNamingSchemeFactory, getObjectFileExtension());
-        return new VersionedNativeCompiler<CppCompileSpec>(outputCleaningCompiler, VisualCppToolChain.DEFAULT_NAME, visualCpp.getVersion());
+        return new VersionedNativeCompiler<CppCompileSpec>(outputCleaningCompiler, VisualCppToolChain.DEFAULT_NAME, visualCpp.getVersion(), getSystemIncludes());
     }
 
     @Override
@@ -100,7 +100,7 @@ class VisualCppPlatformToolProvider extends AbstractPlatformToolProvider {
         CommandLineToolInvocationWorker commandLineTool = tool("C compiler", visualCpp.getCompiler(targetPlatform));
         CCompiler cCompiler = new CCompiler(buildOperationExecutor, compilerOutputFileNamingSchemeFactory, commandLineTool, context(commandLineToolConfigurations.get(ToolType.C_COMPILER)), addDefinitions(CCompileSpec.class), getObjectFileExtension(), true, workerLeaseService);
         OutputCleaningCompiler<CCompileSpec> outputCleaningCompiler = new OutputCleaningCompiler<CCompileSpec>(cCompiler, compilerOutputFileNamingSchemeFactory, getObjectFileExtension());
-        return new VersionedNativeCompiler<CCompileSpec>(outputCleaningCompiler, VisualCppToolChain.DEFAULT_NAME, visualCpp.getVersion());
+        return new VersionedNativeCompiler<CCompileSpec>(outputCleaningCompiler, VisualCppToolChain.DEFAULT_NAME, visualCpp.getVersion(), getSystemIncludes());
     }
 
     @Override
@@ -192,8 +192,7 @@ class VisualCppPlatformToolProvider extends AbstractPlatformToolProvider {
         };
     }
 
-    @Override
-    public List<File> getSystemIncludes() {
+    private List<File> getSystemIncludes() {
         ImmutableList.Builder<File> builder = ImmutableList.builder();
         builder.add(visualCpp.getIncludePath(targetPlatform));
         builder.add(sdk.getIncludeDirs());

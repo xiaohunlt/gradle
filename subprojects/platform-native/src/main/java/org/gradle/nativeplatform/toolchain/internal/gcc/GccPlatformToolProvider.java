@@ -76,7 +76,7 @@ class GccPlatformToolProvider extends AbstractPlatformToolProvider {
         GccVersionResult gccMetadata = gccMetadata(cppCompilerTool);
         CppCompiler cppCompiler = new CppCompiler(buildOperationExecutor, compilerOutputFileNamingSchemeFactory, commandLineTool(cppCompilerTool), context(cppCompilerTool), getObjectFileExtension(), useCommandFile, workerLeaseService);
         OutputCleaningCompiler<CppCompileSpec> outputCleaningCompiler = new OutputCleaningCompiler<CppCompileSpec>(cppCompiler, compilerOutputFileNamingSchemeFactory, getObjectFileExtension());
-        return new VersionedNativeCompiler<CppCompileSpec>(outputCleaningCompiler, compilerType(gccMetadata), gccMetadata.getVersion());
+        return new VersionedNativeCompiler<CppCompileSpec>(outputCleaningCompiler, compilerType(gccMetadata), gccMetadata.getVersion(), gccMetadata.getSystemIncludes());
     }
 
     @Override
@@ -92,7 +92,7 @@ class GccPlatformToolProvider extends AbstractPlatformToolProvider {
         GccVersionResult gccMetadata = gccMetadata(cCompilerTool);
         CCompiler cCompiler = new CCompiler(buildOperationExecutor, compilerOutputFileNamingSchemeFactory, commandLineTool(cCompilerTool), context(cCompilerTool), getObjectFileExtension(), useCommandFile, workerLeaseService);
         OutputCleaningCompiler<CCompileSpec> outputCleaningCompiler = new OutputCleaningCompiler<CCompileSpec>(cCompiler, compilerOutputFileNamingSchemeFactory, getObjectFileExtension());
-        return new VersionedNativeCompiler<CCompileSpec>(outputCleaningCompiler, compilerType(gccMetadata), gccMetadata.getVersion());
+        return new VersionedNativeCompiler<CCompileSpec>(outputCleaningCompiler, compilerType(gccMetadata), gccMetadata.getVersion(), gccMetadata.getSystemIncludes());
     }
 
     private String compilerType(GccVersionResult gccMetadata) {

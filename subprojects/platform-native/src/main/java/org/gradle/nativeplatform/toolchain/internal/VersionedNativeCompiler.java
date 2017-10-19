@@ -21,13 +21,18 @@ import org.gradle.language.base.internal.compile.Compiler;
 import org.gradle.nativeplatform.toolchain.NativeCompilerVersion;
 import org.gradle.util.VersionNumber;
 
+import java.io.File;
+import java.util.List;
+
 public class VersionedNativeCompiler<T extends NativeCompileSpec> implements Compiler<T> {
 
     private final NativeCompilerVersion compilerVersion;
     private final Compiler<T> compiler;
+    private final List<File> systemIncludes;
 
-    public VersionedNativeCompiler(Compiler<T> compiler, String type, VersionNumber version) {
+    public VersionedNativeCompiler(Compiler<T> compiler, String type, VersionNumber version, List<File> systemIncludes) {
         this.compiler = compiler;
+        this.systemIncludes = systemIncludes;
         this.compilerVersion = new DefaultNativeCompilerVersion(type, version);
     }
 
@@ -38,6 +43,10 @@ public class VersionedNativeCompiler<T extends NativeCompileSpec> implements Com
 
     public NativeCompilerVersion getVersion() {
         return compilerVersion;
+    }
+
+    public List<File> getSystemIncludes() {
+        return systemIncludes;
     }
 
 }
