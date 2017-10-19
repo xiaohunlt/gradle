@@ -16,9 +16,12 @@
 
 package org.gradle.nativeplatform.toolchain.internal.gcc.version;
 
+import com.google.common.collect.ImmutableList;
 import org.gradle.nativeplatform.platform.internal.ArchitectureInternal;
 import org.gradle.platform.base.internal.toolchain.ToolSearchResult;
 import org.gradle.util.VersionNumber;
+
+import java.io.File;
 
 public interface GccVersionResult extends ToolSearchResult {
     /**
@@ -29,4 +32,6 @@ public interface GccVersionResult extends ToolSearchResult {
     ArchitectureInternal getDefaultArchitecture();
 
     VersionNumber getVersion();
+
+    ImmutableList<File> getSystemIncludes();
 }
