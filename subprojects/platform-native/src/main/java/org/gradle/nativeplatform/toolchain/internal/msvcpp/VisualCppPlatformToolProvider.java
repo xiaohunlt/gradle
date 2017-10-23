@@ -24,7 +24,6 @@ import org.gradle.internal.jvm.Jvm;
 import org.gradle.internal.operations.BuildOperationExecutor;
 import org.gradle.internal.work.WorkerLeaseService;
 import org.gradle.language.base.internal.compile.Compiler;
-import org.gradle.language.base.internal.compile.VersionAwareCompiler;
 import org.gradle.nativeplatform.internal.CompilerOutputFileNamingSchemeFactory;
 import org.gradle.nativeplatform.internal.LinkerSpec;
 import org.gradle.nativeplatform.internal.StaticLibraryArchiverSpec;
@@ -40,6 +39,7 @@ import org.gradle.nativeplatform.toolchain.internal.NativeCompileSpec;
 import org.gradle.nativeplatform.toolchain.internal.OutputCleaningCompiler;
 import org.gradle.nativeplatform.toolchain.internal.PCHUtils;
 import org.gradle.nativeplatform.toolchain.internal.ToolType;
+import org.gradle.nativeplatform.toolchain.internal.VersionAwareNativeCompiler;
 import org.gradle.nativeplatform.toolchain.internal.compilespec.AssembleSpec;
 import org.gradle.nativeplatform.toolchain.internal.compilespec.CCompileSpec;
 import org.gradle.nativeplatform.toolchain.internal.compilespec.CPCHCompileSpec;
@@ -148,8 +148,8 @@ class VisualCppPlatformToolProvider extends AbstractPlatformToolProvider {
         return new LibExeStaticLibraryArchiver(buildOperationExecutor, commandLineTool, context(commandLineToolConfigurations.get(ToolType.STATIC_LIB_ARCHIVER)), Transformers.<StaticLibraryArchiverSpec>noOpTransformer(), workerLeaseService);
     }
 
-    private <T extends NativeCompileSpec> VersionAwareCompiler<T> versionAwareCompiler(Compiler<T> compiler) {
-        return new VersionAwareCompiler<T>(compiler, VisualCppToolChain.DEFAULT_NAME, visualCpp.getVersion(), getSystemIncludes());
+    private <T extends NativeCompileSpec> VersionAwareNativeCompiler<T> versionAwareCompiler(Compiler<T> compiler) {
+        return new VersionAwareNativeCompiler<T>(compiler, VisualCppToolChain.DEFAULT_NAME, visualCpp.getVersion(), getSystemIncludes());
     }
 
     private CommandLineToolInvocationWorker tool(String toolName, File exe) {
