@@ -36,9 +36,11 @@ import org.gradle.language.nativeplatform.tasks.Depend;
 import org.gradle.model.ModelMap;
 import org.gradle.model.RuleSource;
 import org.gradle.nativeplatform.internal.NativeBinarySpecInternal;
+import org.gradle.nativeplatform.platform.NativePlatform;
 import org.gradle.nativeplatform.toolchain.Clang;
 import org.gradle.nativeplatform.toolchain.Gcc;
 import org.gradle.nativeplatform.toolchain.NativeToolChain;
+import org.gradle.nativeplatform.toolchain.internal.NativeCompileSpec;
 import org.gradle.platform.base.BinaryTasks;
 
 import java.util.concurrent.Callable;
@@ -130,6 +132,24 @@ public class DependPlugin implements Plugin<Project> {
             public Boolean call() throws Exception {
                 NativeToolChain toolChain = compile.getToolChain();
                 return Clang.class.isAssignableFrom(toolChain.getClass()) || Gcc.class.isAssignableFrom(toolChain.getClass());
+            }
+        }));
+        depend.getToolChain().set(project.provider(new Callable<NativeToolChain>() {
+            @Override
+            public NativeToolChain call() throws Exception {
+                return compile.getToolChain();
+            }
+        }));
+        depend.getTargetPlatform().set(project.provider(new Callable<NativePlatform>() {
+            @Override
+            public NativePlatform call() throws Exception {
+                return compile.getTargetPlatform();
+            }
+        }));
+        depend.getSpec().set(project.provider(new Callable<NativeCompileSpec>() {
+            @Override
+            public NativeCompileSpec call() throws Exception {
+                return compile.createCompileSpec();
             }
         }));
         compile.getHeaderDependenciesFile().set(depend.getHeaderDependenciesFile());

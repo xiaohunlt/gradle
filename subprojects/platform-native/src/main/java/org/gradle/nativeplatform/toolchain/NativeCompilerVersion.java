@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 the original author or authors.
+ * Copyright 2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,23 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.gradle.language.cpp.tasks;
+
+package org.gradle.nativeplatform.toolchain;
 
 import org.gradle.api.Incubating;
-import org.gradle.api.tasks.CacheableTask;
-import org.gradle.language.cpp.internal.DefaultCppCompileSpec;
-import org.gradle.language.nativeplatform.tasks.AbstractNativeSourceCompileTask;
-import org.gradle.nativeplatform.toolchain.internal.NativeCompileSpec;
+import org.gradle.api.NonNullApi;
+import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.Optional;
+
+import javax.annotation.Nullable;
 
 /**
- * Compiles C++ source files into object files.
+ * Version of a native compiler.
+ *
+ * @since 4.4
  */
 @Incubating
-@CacheableTask
-public class CppCompile extends AbstractNativeSourceCompileTask {
-    @Override
-    public NativeCompileSpec createCompileSpec() {
-        return new DefaultCppCompileSpec();
-    }
+@NonNullApi
+public interface NativeCompilerVersion {
 
+    /**
+     * Returns the version of the compiler.
+     *
+     * Returns <code>null</code> if the version is unknown.
+     */
+    @Input
+    @Nullable
+    @Optional
+    String getVersion();
+
+    /**
+     * Returns the type of the compiler.
+     */
+    @Input
+    String getType();
 }

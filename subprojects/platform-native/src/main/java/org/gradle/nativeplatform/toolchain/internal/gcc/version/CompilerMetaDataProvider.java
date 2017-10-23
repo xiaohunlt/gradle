@@ -20,5 +20,5 @@ import java.io.File;
 import java.util.List;
 
 public interface CompilerMetaDataProvider {
-    public GccVersionResult getGccMetaData(File gccBinary, List<String> additionalArgs);
+    GccVersionResult getGccMetaData(File gccBinary, List<String> additionalArgs);
 }
