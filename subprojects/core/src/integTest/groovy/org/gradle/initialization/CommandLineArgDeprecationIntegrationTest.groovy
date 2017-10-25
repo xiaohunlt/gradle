@@ -23,7 +23,7 @@ class CommandLineArgDeprecationIntegrationTest extends AbstractIntegrationSpec {
     @Unroll
     def "deprecation warning appears when using #deprecatedArgs"() {
         when:
-        executer.expectDeprecationWarning().requireGradleDistribution()
+        executer.expectDeprecationWarning()
         args(deprecatedArgs)
 
         then:
@@ -32,8 +32,8 @@ class CommandLineArgDeprecationIntegrationTest extends AbstractIntegrationSpec {
 
         where:
         issue                                          | deprecatedArgs        | message
-        'https://github.com/gradle/gradle/issues/1425' | '--recompile-scripts' | StartParameterBuildOptions.RecompileScriptsOption.DEPRECATION_MESSAGE
-        'https://github.com/gradle/gradle/issues/3077' | '--no-rebuild'        | StartParameterBuildOptions.NoProjectDependenciesRebuildOption.DEPRECATION_MESSAGE
-        'https://github.com/gradle/gradle/issues/3077' | '-a'                  | StartParameterBuildOptions.NoProjectDependenciesRebuildOption.DEPRECATION_MESSAGE
+        'https://github.com/gradle/gradle/issues/1425' | '--recompile-scripts' | '--recompile-scripts has been deprecated and is scheduled to be removed in Gradle'
+        'https://github.com/gradle/gradle/issues/3077' | '--no-rebuild'        | '--no-rebuild/-a has been deprecated and is scheduled to be removed in Gradle'
+        'https://github.com/gradle/gradle/issues/3077' | '-a'                  | '--no-rebuild/-a has been deprecated and is scheduled to be removed in Gradle'
     }
 }
